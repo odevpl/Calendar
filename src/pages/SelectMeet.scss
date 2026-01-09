@@ -1,0 +1,9 @@
+.mainCard {
+  max-width: 1000px;
+  margin: 0 auto;
+  .itemsCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
