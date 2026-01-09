@@ -1,5 +1,11 @@
+import BookingView from '../../booking/BookingView/BookingView';
+
 const Main = () => {
-  return <></>;
+  return (
+    <>
+      <BookingView />
+    </>
+  );
 };
 
 export default Main;
