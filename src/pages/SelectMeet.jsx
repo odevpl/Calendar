@@ -1,3 +1,4 @@
+import BookingView from '../components/booking/BookingView/BookingView';
 import Header from '../components/layout/Header/Header';
 import Main from '../components/layout/Main/Main';
 import './SelectMeet.scss';
@@ -15,8 +16,10 @@ const SelectMeet = () => {
             <h2>PaientPop </h2>
           </div>
         </div>
-        <Header />
         <Main />
+        {/* <BookingView /> */}
+        {/* <Header /> */}
+        {/* <Main /> */}
       </div>
     </>
   );
