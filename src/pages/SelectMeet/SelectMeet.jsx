@@ -1,6 +1,6 @@
-import BookingView from '../components/booking/BookingView/BookingView';
-import Header from '../components/layout/Header/Header';
-import Main from '../components/layout/Main/Main';
+import BookingView from '../../components/booking/BookingView/BookingView';
+import Header from '../../components/layout/Header/Header';
+import Main from '../../components/layout/Main/Main';
 import './SelectMeet.scss';
 const SelectMeet = () => {
   return (
@@ -17,9 +17,6 @@ const SelectMeet = () => {
           </div>
         </div>
         <Main />
-        {/* <BookingView /> */}
-        {/* <Header /> */}
-        {/* <Main /> */}
       </div>
     </>
   );

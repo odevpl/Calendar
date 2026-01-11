@@ -1,0 +1,40 @@
+.daysRow {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgb(217, 211, 211);
+  border-bottom: 1px solid rgb(217, 211, 211);
+  padding: 1em;
+}
+
+.days {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin: 0 5em;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  background: none;
+  align-items: center;
+  cursor: pointer;
+
+  .name {
+    text-transform: uppercase;
+  }
+
+  .numberDay {
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+
+  &:hover {
+    color: rgb(194, 82, 101);
+  }
+
+  &.active {
+    color: rgb(189, 17, 140);
+  }
+}
