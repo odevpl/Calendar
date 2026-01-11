@@ -1,0 +1,13 @@
+.blueBtn {
+  padding: 1em 5em;
+  border: none;
+  background-color: #62e9d0;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 0.25em;
+  cursor: pointer;
+  &:hover {
+    background-color: #3ae983;
+  }
+}
