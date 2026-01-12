@@ -3,9 +3,56 @@ import BlueBtn from '../../ui/Button/BlueBtn/BlueBtn';
 import DayRows from '../DayRows/DayRows';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import './DayPicker.scss';
+import { useState } from 'react';
+import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
+import dayjs from 'dayjs';
 
 const DayPicker = () => {
   const navigate = useNavigate();
+
+  const [startDate, setStartDate] = useState(null);
+  const [calendar, setCalendar] = useState(generateCalendarData());
+  const [selectedSlot, setSelectedSlot] = useState(null);
+
+  const handlePrevRange = () => {
+    const newStart = startDate
+      ? dayjs(startDate).subtract(7, 'day')
+      : dayjs().subtract(7, 'day');
+      setStartDate(newStart);
+      setCalendar(generateCalendarData(newStart));
+  }
+
+  const handleNextRange = () => {
+    const newStart = startDate
+      ? dayjs(startDate).add(7, 'day')
+      : dayjs().add(7, 'day');
+    setStartDate(newStart);
+    setCalendar(generateCalendarData(newStart));
+  };
+
+  const handleSelectSlot = (dayIndex, slotIndex) => { //dayIndex - dzień w którym kliknięto slot
+    const newCalendar = calendar.map((day, dIdx) => { //dIdx - aktualny indeks w pętli map
+
+      if (dIdx !== dayIndex) return day; //jeżeli to nie jest kliknięty dzień to zwracamy go bez zmian, tylko w dniu klikniętym zwracamy sloty
+
+      return {
+        ...day,
+        slots: day.slots.map((slot, sIdx) => {
+          if (sIdx !== slotIndex) { // dla każdego slotu poza klikniętym, slotIndex - index klikniętego slotu, sIdx - aktualny indekx w pętli slotów
+            return { ...slot, status: slot.status === 'selected' ? 'available' : slot.status }; //jeżeli był selected to zmieniamy spowrotem na available
+          }
+          if (slot.status === 'disabled') return slot; // jeżeli slot jest disabled to nic się nie dzieje
+          return { ...slot, status: slot.status === 'available' ? 'selected' : 'available' }; //zmiana statusu klikniętego slotu z available na selected i inny na available
+        }),
+      };
+    });
+
+    setCalendar(newCalendar);
+    setSelectedSlot({
+      day: calendar[dayIndex].date,
+      slot: calendar[dayIndex].slots[slotIndex].time,
+    });
+  };
 
   const handleNext = () => {
     navigate('/booking/summary');
@@ -13,8 +60,16 @@ const DayPicker = () => {
 
   return (
     <div className='calendarWrapper'>
-      <DayRows />
-      <TimeSlots />
+      <DayRows
+        calendar={calendar}
+        onSelectDay={handleSelectSlot}
+        onPrevRange={handlePrevRange}
+        onNextRange={handleNextRange}
+      />
+      <TimeSlots
+        calendar={calendar} // tablica dni ze slotami
+        onSelectSlot={handleSelectSlot}
+      />
       <div className='btnWrapper'>
         <BlueBtn onClick={handleNext}> Next</BlueBtn>
       </div>
