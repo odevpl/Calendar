@@ -1,0 +1,25 @@
+.nav {
+  position: relative;
+  width: 100%;
+  background-color: rgb(0, 0, 0);
+  z-index: 10;
+  display: flex;
+  .navItems {
+    margin: 0 auto;
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
+    a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.25s;
+      &:hover {
+        color: aqua;
+      }
+    }
+  }
+}
