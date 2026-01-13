@@ -1,13 +1,47 @@
 import Header from '../../layout/Header/Header';
 import DayPicker from '../DayPicker/DayPicker';
 import MonthSelect from '../MonthSelect/MonthSelect';
+import dayjs from 'dayjs';
+import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
+import { useState } from 'react';
 
 const BookingView = () => {
+  const today = dayjs();
+
+   // Stan miesiąca i kalendarza
+  const [currentMonth, setCurrentMonth] = useState(today.month());
+  const [startDate, setStartDate] = useState(today);
+  const [calendar, setCalendar] = useState(generateCalendarData(today));
+
+  // Zmiana miesiąca
+  const handleChangeMonth = (monthIndex) => {
+    const newStart = startDate.month(monthIndex).date(1); // pierwszy dzień miesiąca
+    setCurrentMonth(monthIndex);
+    setStartDate(newStart);
+    setCalendar(generateCalendarData(newStart));
+  };
+
+  // Powrót do dzisiaj
+  const handleBackToToday = () => {
+    setCurrentMonth(today.month());
+    setStartDate(today);
+    setCalendar(generateCalendarData(today));
+  };
+
   return (
     <>
       <Header />
-      <MonthSelect />
-      <DayPicker />
+      <MonthSelect
+        currentMonth={currentMonth}
+        onChangeMonth={handleChangeMonth}
+        onBackToToday={handleBackToToday}
+      />
+      <DayPicker 
+        startDate={startDate}
+        setStartDate={setStartDate}
+        calendar={calendar}
+        setCalendar={setCalendar}
+      />
     </>
   );
 };

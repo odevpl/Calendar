@@ -1,12 +1,10 @@
 import './Select.scss'
 
-const Select = () => {
+const Select = ({ value, onChange, children }) => {
   return (
-    <>
-      <select className="select">
-        <option> January </option>
-      </select>
-    </>
+    <select value={value} onChange={onChange}>
+      {children}
+    </select>
   );
 };
 
