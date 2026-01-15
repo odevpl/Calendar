@@ -7,11 +7,9 @@ import { useState } from 'react';
 import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
 import dayjs from 'dayjs';
 
-const DayPicker = () => {
+const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
   const navigate = useNavigate();
 
-  const [startDate, setStartDate] = useState(null);
-  const [calendar, setCalendar] = useState(generateCalendarData());
   const [selectedSlot, setSelectedSlot] = useState(null);
 
   const handlePrevRange = () => {
