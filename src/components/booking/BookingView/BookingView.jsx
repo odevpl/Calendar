@@ -4,7 +4,7 @@ import MonthSelect from '../MonthSelect/MonthSelect';
 import dayjs from 'dayjs';
 // import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
 import { useState } from 'react';
-import { generateRandomWeek } from '../../utils/CalendarConfig/CalendarConfig';
+import { generateRandomWeekData } from '../../utils/CalendarConfig/CalendarConfig';
 
 const BookingView = () => {
   const today = dayjs();
@@ -15,7 +15,7 @@ const BookingView = () => {
   // const [calendar, setCalendar] = useState(generateCalendarData(today));
   // random slots
   // ==========================
-  const [calendar, setCalendar] = useState(generateRandomWeek());
+  const [calendar, setCalendar] = useState(generateRandomWeekData());
   // ===========================
   // Zmiana miesiąca
   const handleChangeMonth = (monthIndex) => {
@@ -23,14 +23,14 @@ const BookingView = () => {
     setCurrentMonth(monthIndex);
     setStartDate(newStart);
     // setCalendar(generateCalendarData(newStart));
-    setCalendar(generateRandomWeek(newStart));
+    setCalendar(generateRandomWeekData(newStart));
   };
 
   // Powrót do dzisiaj
   const handleBackToToday = () => {
     setCurrentMonth(today.month());
     setStartDate(today);
-    setCalendar(generateRandomWeek(today));
+    setCalendar(generateRandomWeekData(today));
   };
 
   return (

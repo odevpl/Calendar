@@ -19,7 +19,7 @@ export const MOCK_SLOTS = [
   '16:30',
 ];
 
-export const generateRandomWeek = (startDate = null) => {
+export const generateRandomWeekData = (startDate = null) => {
   const start = startDate ? dayjs(startDate) : dayjs();
   const data = [];
 
