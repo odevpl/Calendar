@@ -1,0 +1,24 @@
+{
+  "calendar": [
+    {
+      "date": "2026-01-19",
+      "dayName": "Mon",
+      "isToday": true,
+      "isDisabled": false,
+      "slots": [
+        { "time": "09:00", "status": "available" },
+        { "time": "09:30", "status": "available" }
+      ]
+    },
+    {
+      "date": "2026-01-20",
+      "dayName": "Tue",
+      "isToday": false,
+      "isDisabled": false,
+      "slots": [
+        { "time": "09:00", "status": "available" },
+        { "time": "09:30", "status": "available" }
+      ]
+    }
+  ]
+}
