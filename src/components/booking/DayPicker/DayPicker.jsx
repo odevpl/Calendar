@@ -3,15 +3,15 @@ import BlueBtn from '../../ui/Button/BlueBtn/BlueBtn';
 import DayRows from '../DayRows/DayRows';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import './DayPicker.scss';
-// import { useState } from 'react';
+import { useState } from 'react';
 // import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
 import dayjs from 'dayjs';
 import { generateRandomWeek } from '../../utils/CalendarConfig/CalendarConfig';
 
 const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
   const navigate = useNavigate();
-
-  // const [selectedSlot, setSelectedSlot] = useState(null);
+  // stan przechowuje obiekt {data, time} dla klikniętego slotu
+  const [selectedSlot, setSelectedSlot] = useState();
 
   const handlePrevRange = () => {
     const newStart = startDate
@@ -31,6 +31,11 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
 
   const handleSelectSlot = (clickedDayIndex, clickedSlotIndex) => {
     //clickedDayIndex - dzień w którym kliknięto slot
+
+    // dzień kliknięty
+    const clickedDay = calendar[clickedDayIndex];
+    // godzina kliknięta
+    const clickedSlot = clickedDay.slots[clickedSlotIndex];
 
     const newCalendar = calendar.map((day, dayIndex) => {
       //dayIndex - aktualny indeks w pętli map
@@ -52,12 +57,15 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
         }),
       };
     });
+    // nowy obiek z dniem i godziną
+    const newSelectedSlot = { date: clickedDay.date, time: clickedSlot.time };
 
     setCalendar(newCalendar);
+    setSelectedSlot(newSelectedSlot);
   };
 
   const handleNext = () => {
-    navigate('/booking/summary');
+    navigate('/booking/summary', { state: selectedSlot });
   };
 
   return (
