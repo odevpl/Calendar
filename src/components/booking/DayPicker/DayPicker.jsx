@@ -4,7 +4,7 @@ import DayRows from '../DayRows/DayRows';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import './DayPicker.scss';
 import { useState, useEffect } from 'react';
-import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
+import { generateRandomWeekData } from '../../utils/CalendarConfig/CalendarConfig';
 import dayjs from 'dayjs';
 import { api } from '../../utils/api/api'; // import axios client
 
@@ -18,7 +18,7 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
       ? dayjs(startDate).subtract(7, 'day')
       : dayjs().subtract(7, 'day');
     setStartDate(newStart);
-    setCalendar(generateRandomWeek(newStart));
+    setCalendar(generateRandomWeekData(newStart));
   };
 
   const handleNextRange = () => {
@@ -26,18 +26,19 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
       ? dayjs(startDate).add(7, 'day')
       : dayjs().add(7, 'day');
     setStartDate(newStart);
-    setCalendar(generateRandomWeek(newStart));
+    setCalendar(generateRandomWeekData(newStart));
   };
 
-    // Pobranie danych z backendu
+  // Pobranie danych z backendu
   const fetchCalendar = async () => {
     try {
       const response = await api.get('/calendar'); // GET http://localhost:4000/calendar
 
       // dodajemy logikę weekendów
-      const updatedCalendar = response.data.map(day => ({
+      const updatedCalendar = response.data.map((day) => ({
         ...day,
-        isDisabled: day.isDisabled || [0,6].includes(new Date(day.date).getDay())
+        isDisabled:
+          day.isDisabled || [0, 6].includes(new Date(day.date).getDay()),
       }));
 
       setCalendar(updatedCalendar);
@@ -50,8 +51,10 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
     fetchCalendar();
   }, []);
 
-  const handleSelectSlot = (dayIndex, slotIndex) => { //dayIndex - dzień w którym kliknięto slot
-    const newCalendar = calendar.map((day, dIdx) => { //dIdx - aktualny indeks w pętli map
+  const handleSelectSlot = (clickedDayIndex, clickedSlotIndex) => {
+    //dayIndex - dzień w którym kliknięto slot
+    const clickedDay = calendar[clickedDayIndex];
+    const clickedSlot = clickedDay.slots[clickedSlotIndex];
 
     const newCalendar = calendar.map((day, dayIndex) => {
       //dayIndex - aktualny indeks w pętli map
