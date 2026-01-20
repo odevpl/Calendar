@@ -31,6 +31,10 @@
       color: #fff;
       cursor: not-allowed;
     }
+    &.disable {
+      color: #e0f0ff;
+      cursor: not-allowed;
+    }
 
     &.selected {
       background-color: #fff;

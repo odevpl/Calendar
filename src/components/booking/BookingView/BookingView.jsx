@@ -2,30 +2,35 @@ import Header from '../../layout/Header/Header';
 import DayPicker from '../DayPicker/DayPicker';
 import MonthSelect from '../MonthSelect/MonthSelect';
 import dayjs from 'dayjs';
-import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
+// import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
 import { useState } from 'react';
+import { generateRandomWeek } from '../../utils/CalendarConfig/CalendarConfig';
 
 const BookingView = () => {
   const today = dayjs();
 
-   // Stan miesiąca i kalendarza
+  // Stan miesiąca i kalendarza
   const [currentMonth, setCurrentMonth] = useState(today.month());
   const [startDate, setStartDate] = useState(today);
-  const [calendar, setCalendar] = useState(generateCalendarData(today));
-
+  // const [calendar, setCalendar] = useState(generateCalendarData(today));
+  // random slots
+  // ==========================
+  const [calendar, setCalendar] = useState(generateRandomWeek());
+  // ===========================
   // Zmiana miesiąca
   const handleChangeMonth = (monthIndex) => {
     const newStart = startDate.month(monthIndex).date(1); // pierwszy dzień miesiąca
     setCurrentMonth(monthIndex);
     setStartDate(newStart);
-    setCalendar(generateCalendarData(newStart));
+    // setCalendar(generateCalendarData(newStart));
+    setCalendar(generateRandomWeek(newStart));
   };
 
   // Powrót do dzisiaj
   const handleBackToToday = () => {
     setCurrentMonth(today.month());
     setStartDate(today);
-    setCalendar(generateCalendarData(today));
+    setCalendar(generateRandomWeek(today));
   };
 
   return (
@@ -36,7 +41,7 @@ const BookingView = () => {
         onChangeMonth={handleChangeMonth}
         onBackToToday={handleBackToToday}
       />
-      <DayPicker 
+      <DayPicker
         startDate={startDate}
         setStartDate={setStartDate}
         calendar={calendar}

@@ -10,23 +10,23 @@ import { api } from '../../utils/api/api'; // import axios client
 
 const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
   const navigate = useNavigate();
-
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  // stan przechowuje obiekt {data, time} dla klikniętego slotu
+  const [selectedSlot, setSelectedSlot] = useState();
 
   const handlePrevRange = () => {
     const newStart = startDate
       ? dayjs(startDate).subtract(7, 'day')
       : dayjs().subtract(7, 'day');
-      setStartDate(newStart);
-      setCalendar(generateCalendarData(newStart));
-  }
+    setStartDate(newStart);
+    setCalendar(generateRandomWeek(newStart));
+  };
 
   const handleNextRange = () => {
     const newStart = startDate
       ? dayjs(startDate).add(7, 'day')
       : dayjs().add(7, 'day');
     setStartDate(newStart);
-    setCalendar(generateCalendarData(newStart));
+    setCalendar(generateRandomWeek(newStart));
   };
 
     // Pobranie danych z backendu
@@ -53,29 +53,35 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
   const handleSelectSlot = (dayIndex, slotIndex) => { //dayIndex - dzień w którym kliknięto slot
     const newCalendar = calendar.map((day, dIdx) => { //dIdx - aktualny indeks w pętli map
 
-      if (dIdx !== dayIndex) return day; //jeżeli to nie jest kliknięty dzień to zwracamy go bez zmian, tylko w dniu klikniętym zwracamy sloty
+    const newCalendar = calendar.map((day, dayIndex) => {
+      //dayIndex - aktualny indeks w pętli map
 
       return {
         ...day,
-        slots: day.slots.map((slot, sIdx) => {
-          if (sIdx !== slotIndex) { // dla każdego slotu poza klikniętym, slotIndex - index klikniętego slotu, sIdx - aktualny indekx w pętli slotów
-            return { ...slot, status: slot.status === 'selected' ? 'available' : slot.status }; //jeżeli był selected to zmieniamy spowrotem na available
+        slots: day.slots.map((slot, slotIndex) => {
+          if (slot.status === 'disable') {
+            return slot;
           }
-          if (slot.status === 'disabled') return slot; // jeżeli slot jest disabled to nic się nie dzieje
-          return { ...slot, status: slot.status === 'available' ? 'selected' : 'available' }; //zmiana statusu klikniętego slotu z available na selected i inny na available
+
+          const isClickedSlot =
+            dayIndex === clickedDayIndex && slotIndex === clickedSlotIndex;
+
+          return {
+            ...slot,
+            status: isClickedSlot ? 'selected' : 'available',
+          };
         }),
       };
     });
+    // nowy obiek z dniem i godziną
+    const newSelectedSlot = { date: clickedDay.date, time: clickedSlot.time };
 
     setCalendar(newCalendar);
-    setSelectedSlot({
-      day: calendar[dayIndex].date,
-      slot: calendar[dayIndex].slots[slotIndex].time,
-    });
+    setSelectedSlot(newSelectedSlot);
   };
 
   const handleNext = () => {
-    navigate('/booking/summary');
+    navigate('/booking/summary', { state: selectedSlot });
   };
 
   return (
