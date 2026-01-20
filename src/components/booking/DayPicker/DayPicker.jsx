@@ -3,9 +3,10 @@ import BlueBtn from '../../ui/Button/BlueBtn/BlueBtn';
 import DayRows from '../DayRows/DayRows';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import './DayPicker.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
 import dayjs from 'dayjs';
+import { api } from '../../utils/api/api'; // import axios client
 
 const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
   const navigate = useNavigate();
@@ -27,6 +28,27 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
     setStartDate(newStart);
     setCalendar(generateCalendarData(newStart));
   };
+
+    // Pobranie danych z backendu
+  const fetchCalendar = async () => {
+    try {
+      const response = await api.get('/calendar'); // GET http://localhost:4000/calendar
+
+      // dodajemy logikę weekendów
+      const updatedCalendar = response.data.map(day => ({
+        ...day,
+        isDisabled: day.isDisabled || [0,6].includes(new Date(day.date).getDay())
+      }));
+
+      setCalendar(updatedCalendar);
+    } catch (error) {
+      console.error('Błąd pobierania kalendarza:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCalendar();
+  }, []);
 
   const handleSelectSlot = (dayIndex, slotIndex) => { //dayIndex - dzień w którym kliknięto slot
     const newCalendar = calendar.map((day, dIdx) => { //dIdx - aktualny indeks w pętli map
