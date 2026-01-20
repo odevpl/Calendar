@@ -3,53 +3,57 @@ import BlueBtn from '../../ui/Button/BlueBtn/BlueBtn';
 import DayRows from '../DayRows/DayRows';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import './DayPicker.scss';
-import { useState } from 'react';
-import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
+// import { useState } from 'react';
+// import { generateCalendarData } from '../../utils/CalendarData/CalendarData';
 import dayjs from 'dayjs';
+import { generateRandomWeek } from '../../utils/CalendarConfig/CalendarConfig';
 
 const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
   const navigate = useNavigate();
 
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  // const [selectedSlot, setSelectedSlot] = useState(null);
 
   const handlePrevRange = () => {
     const newStart = startDate
       ? dayjs(startDate).subtract(7, 'day')
       : dayjs().subtract(7, 'day');
-      setStartDate(newStart);
-      setCalendar(generateCalendarData(newStart));
-  }
+    setStartDate(newStart);
+    setCalendar(generateRandomWeek(newStart));
+  };
 
   const handleNextRange = () => {
     const newStart = startDate
       ? dayjs(startDate).add(7, 'day')
       : dayjs().add(7, 'day');
     setStartDate(newStart);
-    setCalendar(generateCalendarData(newStart));
+    setCalendar(generateRandomWeek(newStart));
   };
 
-  const handleSelectSlot = (dayIndex, slotIndex) => { //dayIndex - dzień w którym kliknięto slot
-    const newCalendar = calendar.map((day, dIdx) => { //dIdx - aktualny indeks w pętli map
+  const handleSelectSlot = (clickedDayIndex, clickedSlotIndex) => {
+    //clickedDayIndex - dzień w którym kliknięto slot
 
-      if (dIdx !== dayIndex) return day; //jeżeli to nie jest kliknięty dzień to zwracamy go bez zmian, tylko w dniu klikniętym zwracamy sloty
+    const newCalendar = calendar.map((day, dayIndex) => {
+      //dayIndex - aktualny indeks w pętli map
 
       return {
         ...day,
-        slots: day.slots.map((slot, sIdx) => {
-          if (sIdx !== slotIndex) { // dla każdego slotu poza klikniętym, slotIndex - index klikniętego slotu, sIdx - aktualny indekx w pętli slotów
-            return { ...slot, status: slot.status === 'selected' ? 'available' : slot.status }; //jeżeli był selected to zmieniamy spowrotem na available
+        slots: day.slots.map((slot, slotIndex) => {
+          if (slot.status === 'disable') {
+            return slot;
           }
-          if (slot.status === 'disabled') return slot; // jeżeli slot jest disabled to nic się nie dzieje
-          return { ...slot, status: slot.status === 'available' ? 'selected' : 'available' }; //zmiana statusu klikniętego slotu z available na selected i inny na available
+
+          const isClickedSlot =
+            dayIndex === clickedDayIndex && slotIndex === clickedSlotIndex;
+
+          return {
+            ...slot,
+            status: isClickedSlot ? 'selected' : 'available',
+          };
         }),
       };
     });
 
     setCalendar(newCalendar);
-    setSelectedSlot({
-      day: calendar[dayIndex].date,
-      slot: calendar[dayIndex].slots[slotIndex].time,
-    });
   };
 
   const handleNext = () => {
