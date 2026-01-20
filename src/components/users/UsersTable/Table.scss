@@ -1,0 +1,39 @@
+.table {
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: #e0e0e0;
+  border: 1px solid white;
+  border-radius: 0.5em;
+  box-shadow: 1px 12px 22px #e0e0e0;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 2em 1em;
+    text-align: left;
+  }
+
+  thead {
+    font-weight: 700;
+    border-bottom: 2px solid #b5adad;
+  }
+
+  tbody td {
+    border-bottom: 1px solid #b5adad;
+    .icon-btn {
+      margin-right: 1em;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background-color: #b5adad;
+  }
+  // tbody tr td
+}
