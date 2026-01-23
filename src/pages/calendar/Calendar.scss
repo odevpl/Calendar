@@ -1,0 +1,39 @@
+.calendarSection {
+  margin: 2rem 0;
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    z-index: 100;
+
+    .formGroup {
+      margin-bottom: 1rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.3rem 0.5rem;
+      }
+    }
+
+    .popupActions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+  }
+
+  .calendarWrapper {
+    margin-top: 1rem;
+  }
+}
