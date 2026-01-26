@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
 import { useLocation } from 'react-router-dom';
 
-const BookingSummary = () => {
+const BookingSummary = ({ translate }) => {
   const navigate = useNavigate();
   // zwraca obiekt w którym jest state w navigate
   const location = useLocation();
@@ -14,11 +14,13 @@ const BookingSummary = () => {
   };
   return (
     <>
-      <h1>BookingSummary</h1>
+      <h1> {translate.bookingSummary.title}</h1>
       <p>
-        Wybrany termin: {selectedSlot.date} o godznie: {selectedSlot.time}
+        {translate.bookingSummary.selectedTextOne}
+        {selectedSlot.date} {translate.bookingSummary.selectedTextTwo}
+        {selectedSlot.time}
       </p>
-      <BlueBtn onClick={handelPrev}>Powrót</BlueBtn>
+      <BlueBtn onClick={handelPrev}>{translate.bookingSummary.btnBack}</BlueBtn>
     </>
   );
 };

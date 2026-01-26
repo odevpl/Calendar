@@ -1,6 +1,5 @@
-
 import ArrowBtn from '../../ui/Button/ArrowBtn/ArrowBtn';
-import './DayRows.scss'
+import './DayRows.scss';
 
 const DaysRow = ({ calendar, onSelectDay, onPrevRange, onNextRange }) => {
   return (

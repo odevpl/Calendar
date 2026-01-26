@@ -8,7 +8,13 @@ import { generateRandomWeekData } from '../../utils/CalendarConfig/CalendarConfi
 import dayjs from 'dayjs';
 import { api } from '../../utils/api/api'; // import axios client
 
-const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
+const DayPicker = ({
+  calendar,
+  setCalendar,
+  startDate,
+  setStartDate,
+  translate,
+}) => {
   const navigate = useNavigate();
   // stan przechowuje obiekt {data, time} dla klikniętego slotu
   const [selectedSlot, setSelectedSlot] = useState();
@@ -94,13 +100,14 @@ const DayPicker = ({ calendar, setCalendar, startDate, setStartDate }) => {
         onSelectDay={handleSelectSlot}
         onPrevRange={handlePrevRange}
         onNextRange={handleNextRange}
+        translate={translate}
       />
       <TimeSlots
         calendar={calendar} // tablica dni ze slotami
         onSelectSlot={handleSelectSlot}
       />
       <div className='btnWrapper'>
-        <BlueBtn onClick={handleNext}> Next</BlueBtn>
+        <BlueBtn onClick={handleNext}>Next</BlueBtn>
       </div>
     </div>
   );

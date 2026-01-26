@@ -1,9 +1,9 @@
 import BookingView from '../../booking/BookingView/BookingView';
 
-const Main = () => {
+const Main = ({ translate }) => {
   return (
     <>
-      <BookingView />
+      <BookingView translate={translate} />
     </>
   );
 };

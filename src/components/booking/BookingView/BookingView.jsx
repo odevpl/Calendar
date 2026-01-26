@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { generateRandomWeekData } from '../../utils/CalendarConfig/CalendarConfig';
 
-const BookingView = () => {
+const BookingView = ({ translate }) => {
   const today = dayjs();
 
   // Stan miesiąca i kalendarza
@@ -40,12 +40,14 @@ const BookingView = () => {
         currentMonth={currentMonth}
         onChangeMonth={handleChangeMonth}
         onBackToToday={handleBackToToday}
+        translate={translate}
       />
       <DayPicker
         startDate={startDate}
         setStartDate={setStartDate}
         calendar={calendar}
         setCalendar={setCalendar}
+        translate={translate}
       />
     </>
   );

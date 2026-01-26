@@ -4,7 +4,7 @@ import './Calendar.scss';
 import DayPicker from '../../components/booking/DayPicker/DayPicker';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
 
-const Calendar = () => {
+const Calendar = ({ translate }) => {
   const [calendar, setCalendar] = useState([]); // stan kalendarza
   const [startDate, setStartDate] = useState(dayjs());
   const [showPopup, setShowPopup] = useState(false);
@@ -78,13 +78,15 @@ const Calendar = () => {
 
   return (
     <div className='calendarSection'>
-      <BlueBtn onClick={() => setShowPopup(true)}>Dodaj terminy</BlueBtn>
+      <BlueBtn onClick={() => setShowPopup(true)}>
+        {translate.calendarPage.btn}
+      </BlueBtn>
 
       {showPopup && (
         <div className='popup'>
-          <h3>Dodaj nowy termin</h3>
+          <h3>{translate.calendarPage.popup.title}</h3>
           <div className='formGroup'>
-            <label>Data:</label>
+            <label>{translate.calendarPage.popup.date}</label>
             <input
               type='date'
               value={newDate}
@@ -92,7 +94,7 @@ const Calendar = () => {
             />
           </div>
           <div className='formGroup'>
-            <label>Godzina:</label>
+            <label>{translate.calendarPage.popup.hour}</label>
             <input
               type='time'
               value={newTime}
@@ -100,7 +102,7 @@ const Calendar = () => {
             />
           </div>
           <div className='formGroup'>
-            <label>Długość spotkania (minuty):</label>
+            <label>{translate.calendarPage.popup.meetingLength}</label>
             <input
               type='number'
               min={1}
@@ -110,7 +112,7 @@ const Calendar = () => {
             />
           </div>
           <div className='formGroup'>
-            <label>Ilość spotkań:</label>
+            <label>{translate.calendarPage.popup.numMeeting}</label>
             <input
               type='number'
               min={1}
@@ -119,15 +121,19 @@ const Calendar = () => {
             />
           </div>
           <div className='popupActions'>
-            <BlueBtn onClick={handleAddTerm}>Dodaj</BlueBtn>
-            <BlueBtn onClick={() => setShowPopup(false)}>Anuluj</BlueBtn>
+            <BlueBtn onClick={handleAddTerm}>
+              {translate.calendarPage.popup.btnAdd}
+            </BlueBtn>
+            <BlueBtn onClick={() => setShowPopup(false)}>
+              {translate.calendarPage.popup.btnCancel}
+            </BlueBtn>
           </div>
         </div>
       )}
 
       <div className='calendarWrapper'>
         {calendar.length === 0 ? (
-          <p>Brak dodanych terminów</p>
+          <p>{translate.calendarPage.infoText}</p>
         ) : (
           <DayPicker
             calendar={calendar}

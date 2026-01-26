@@ -2,7 +2,7 @@ import Table from '../../components/users/UsersTable/Table';
 import tableData from '../../data/tableData';
 import tableConfig from './tableConfig';
 
-const Users = () => {
+const Users = ({ translate }) => {
   const data = tableData;
   const config = tableConfig;
 
@@ -12,7 +12,7 @@ const Users = () => {
 
   return (
     <>
-      <h1>Users</h1>
+      <h1>{translate.users.title}</h1>
       <Table data={data} config={config} onClick={handleRowClick} />
     </>
   );
