@@ -1,11 +1,11 @@
 import { Formik, Form, Field } from 'formik';
 import './UserEdit.scss';
 
-const UserEdit = () => {
+const UserEdit = ({ translate }) => {
   return (
-    <div className="userEditPage">
-      <div className="userEdit">
-        <h2>User edit</h2>
+    <div className='userEditPage'>
+      <div className='userEdit'>
+        <h2>{translate.usersEdit.title}</h2>
 
         <Formik
           initialValues={{
@@ -20,62 +20,60 @@ const UserEdit = () => {
           }}
         >
           {({ values }) => (
-            <Form className="form">
-
+            <Form className='form'>
               {/* LOGIN */}
-              <div className="formGroup">
-                <label>Login</label>
+              <div className='formGroup'>
+                <label>{translate.usersEdit.lableOne}</label>
                 <Field
-                  name="login"
-                  type="text"
-                  placeholder="Enter login"
+                  name='login'
+                  type='text'
+                  placeholder={translate.usersEdit.placeholderOne}
                 />
               </div>
 
               {/* TYPE */}
-              <div className="formGroup">
-                <label>Type</label>
-                <Field as="select" name="type">
-                  <option value="type1">Type 1</option>
-                  <option value="type2">Type 2</option>
+              <div className='formGroup'>
+                <label>{translate.usersEdit.lableTwo}</label>
+                <Field as='select' name='type'>
+                  <option value='type1'>{translate.usersEdit.optionOne}</option>
+                  <option value='type2'>{translate.usersEdit.optionTwo}</option>
                 </Field>
               </div>
 
               {/* ADD FIRST MEETING */}
-              <div className="formGroup checkbox">
+              <div className='formGroup checkbox'>
                 <label>
-                  <Field type="checkbox" name="addFirstMeeting" />
-                  Add first meeting
+                  <Field type='checkbox' name='addFirstMeeting' />
+                  {translate.usersEdit.lableThree}
                 </label>
               </div>
 
               {/* CONDITIONAL FIELDS */}
               {values.addFirstMeeting && (
                 <>
-                  <div className="inputWithIcon">
+                  <div className='inputWithIcon'>
                     <Field
-                      type="date"
-                      name="firstMeetingDate"
+                      type='date'
+                      name='firstMeetingDate'
                       onClick={(e) => e.target.showPicker()}
                     />
                   </div>
 
-                  <div className="inputWithIcon">
+                  <div className='inputWithIcon'>
                     <Field
-                      type="time"
-                      name="firstMeetingTime"
+                      type='time'
+                      name='firstMeetingTime'
                       onClick={(e) => e.target.showPicker()}
                     />
                   </div>
                 </>
               )}
 
-              <div className="actions">
-                <button type="submit" className="primaryBtn">
-                  Save user
+              <div className='actions'>
+                <button type='submit' className='primaryBtn'>
+                  {translate.usersEdit.btn}
                 </button>
               </div>
-
             </Form>
           )}
         </Formik>
