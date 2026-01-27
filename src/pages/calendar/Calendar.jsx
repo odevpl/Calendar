@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import './Calendar.scss';
 import DayPicker from '../../components/booking/DayPicker/DayPicker';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
+import PopupTime from './PopupTime/PopupTime';
 
 const Calendar = ({ translate }) => {
   const [calendar, setCalendar] = useState([]); // stan kalendarza
@@ -101,6 +102,47 @@ const Calendar = ({ translate }) => {
               onChange={(e) => setNewTime(e.target.value)}
             />
           </div>
+          {/* zmiana czasu testy  */}
+          {/* ================= */}
+          <div className='formGroup'>
+            <label>{translate.calendarPage.popup.hour}</label>
+            <div className='time'>
+              <div className='hours'>
+                <button>▲</button>
+                <input
+                  className='timeInput'
+                  type='number'
+                  // type='time'
+                  // value={newTime}
+                  // onChange={(e) => setNewTime(e.target.value)}
+                  // placeholder='godz'
+                  min={1}
+                  max={23}
+                />
+                <button>▼</button>
+              </div>
+              <div className='separator'>:</div>
+              <div className='hours'>
+                <button>▲</button>
+                <input
+                  className='timeInput'
+                  type='number'
+                  // type='time'
+                  // value={newTime}
+                  // onChange={(e) => setNewTime(e.target.value)}
+                  // placeholder='min'
+                  min={0}
+                  max={55}
+                  step={5}
+                />
+                <button>▼</button>
+              </div>
+            </div>
+          </div>
+
+          {/* ===================== */}
+
+          {/* ================== */}
           <div className='formGroup'>
             <label>{translate.calendarPage.popup.meetingLength}</label>
             <input
