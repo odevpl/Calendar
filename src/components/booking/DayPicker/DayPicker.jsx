@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { generateRandomWeekData } from '../../utils/CalendarConfig/CalendarConfig';
 import dayjs from 'dayjs';
 import { api } from '../../utils/api/api'; // import axios client
+import { testConnection } from '../../utils/api/connector';
 
 const DayPicker = ({
   calendar,
@@ -15,6 +16,22 @@ const DayPicker = ({
   setStartDate,
   translate,
 }) => {
+
+  useEffect(() => {
+    const checkApi = async () => {
+      try {
+        const res = await testConnection();
+        console.log('Response', res);
+      } catch (e) {
+        console.error('Backend unreachable');
+      }
+    };
+
+    checkApi();
+
+  }, []);
+
+
   const navigate = useNavigate();
   // stan przechowuje obiekt {data, time} dla klikniętego slotu
   const [selectedSlot, setSelectedSlot] = useState();
