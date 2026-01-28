@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './SelectTime.scss';
 import dayjs from 'dayjs';
+import TimePickerModal from './TimePickerModal/TimePickerModal';
 
 const SelectTime = ({ onChangeTime }) => {
   const nowIs = dayjs();
@@ -61,10 +62,21 @@ const SelectTime = ({ onChangeTime }) => {
   const formattedMinute = minute < 10 ? `0${minute}` : `${minute}`;
   const time = `${formattedHour}:${formattedMinute}`;
 
+  // przesłanie nowej godziny do komponentu calendar
   useEffect(() => {
     onChangeTime(time);
   }, [time, onChangeTime]);
   // onChangeTime(time);
+
+  // funkcje dla Modal Pickera
+  const handleSelectorHour = (value) => {
+    setHour(Number(value));
+  };
+
+  const handleSelectorMinute = (value) => {
+    setMinute(Number(value));
+  };
+
   return (
     <>
       <div className='formGroup'>
@@ -79,7 +91,7 @@ const SelectTime = ({ onChangeTime }) => {
               type='number'
               min={1}
               max={23}
-              value={hour}
+              value={String(hour).padStart(2, '0')}
               onChange={handleHourChange}
             />
             <button onClick={subtractHour}>▼</button>
@@ -102,6 +114,11 @@ const SelectTime = ({ onChangeTime }) => {
             <button onClick={subtractMinute}>▼</button>
           </div>
         </div>
+
+        <TimePickerModal
+          onSelectHour={handleSelectorHour}
+          onSelectMinute={handleSelectorMinute}
+        />
       </div>
     </>
   );

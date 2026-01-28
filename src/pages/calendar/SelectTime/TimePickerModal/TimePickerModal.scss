@@ -1,0 +1,32 @@
+.modalTime {
+  width: 280px;
+  padding: 1rem;
+  background: white;
+
+  border-radius: 8px;
+  margin: 0 auto;
+
+  .section {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+  }
+
+  .gridTime {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .timeItem {
+    padding: 0.4rem 0;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-top: 1px solid gray;
+
+    &:hover {
+      background-color: #e6f0ff;
+    }
+  }
+}
