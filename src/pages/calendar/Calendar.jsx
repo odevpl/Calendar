@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import './Calendar.scss';
 import DayPicker from '../../components/booking/DayPicker/DayPicker';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
-import PopupTime from './PopupTime/PopupTime';
+import SelectTime from './SelectTime/SelectTime';
 
 const Calendar = ({ translate }) => {
   const [calendar, setCalendar] = useState([]); // stan kalendarza
@@ -94,17 +94,18 @@ const Calendar = ({ translate }) => {
               onChange={(e) => setNewDate(e.target.value)}
             />
           </div>
-          <div className='formGroup'>
+          {/* <div className='formGroup'>
             <label>{translate.calendarPage.popup.hour}</label>
             <input
               type='time'
               value={newTime}
               onChange={(e) => setNewTime(e.target.value)}
             />
-          </div>
+          </div> */}
           {/* zmiana czasu testy  */}
+          <SelectTime onChangeTime={setNewTime} />
           {/* ================= */}
-          <div className='formGroup'>
+          {/* <div className='formGroup'>
             <label>{translate.calendarPage.popup.hour}</label>
             <div className='time'>
               <div className='hours'>
@@ -138,7 +139,7 @@ const Calendar = ({ translate }) => {
                 <button>▼</button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* ===================== */}
 
