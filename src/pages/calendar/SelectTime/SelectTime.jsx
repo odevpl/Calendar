@@ -8,6 +8,8 @@ const SelectTime = ({ onChangeTime }) => {
 
   const [hour, setHour] = useState(nowIs.hour());
   const [minute, setMinute] = useState(0);
+  // picker
+  const [activPicker, setActivPicker] = useState(null);
 
   const handleHourChange = (e) => {
     let value = Number(e.target.value);
@@ -66,15 +68,23 @@ const SelectTime = ({ onChangeTime }) => {
   useEffect(() => {
     onChangeTime(time);
   }, [time, onChangeTime]);
-  // onChangeTime(time);
 
-  // funkcje dla Modal Pickera
   const handleSelectorHour = (value) => {
     setHour(Number(value));
+    setActivPicker(null);
   };
 
   const handleSelectorMinute = (value) => {
     setMinute(Number(value));
+    setActivPicker(null);
+  };
+
+  // otwieranie modala godzin i minut
+  const openHourPicker = () => {
+    setActivPicker('hour');
+  };
+  const openMinutePicker = () => {
+    setActivPicker('minute');
   };
 
   return (
@@ -93,11 +103,11 @@ const SelectTime = ({ onChangeTime }) => {
               max={23}
               value={String(hour).padStart(2, '0')}
               onChange={handleHourChange}
+              onClick={openHourPicker}
             />
             <button onClick={subtractHour}>▼</button>
           </div>
           <div className='separator'>:</div>
-
           {/* input minuty */}
           {/* ==================================== */}
           <div className='hours'>
@@ -110,15 +120,19 @@ const SelectTime = ({ onChangeTime }) => {
               step={5}
               value={String(minute).padStart(2, '0')}
               onChange={handleMinuteChange}
+              onClick={openMinutePicker}
             />
             <button onClick={subtractMinute}>▼</button>
           </div>
         </div>
-
-        <TimePickerModal
-          onSelectHour={handleSelectorHour}
-          onSelectMinute={handleSelectorMinute}
-        />
+        {/* picker time */}
+        {activPicker && (
+          <TimePickerModal
+            onSelectHour={handleSelectorHour}
+            onSelectMinute={handleSelectorMinute}
+            activPicker={activPicker}
+          />
+        )}
       </div>
     </>
   );

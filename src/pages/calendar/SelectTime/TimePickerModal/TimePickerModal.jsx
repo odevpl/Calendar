@@ -1,6 +1,6 @@
 import './TimePickerModal.scss';
 
-const TimePickerModal = ({ onSelectHour, onSelectMinute }) => {
+const TimePickerModal = ({ onSelectHour, onSelectMinute, activPicker }) => {
   const hourData = [
     '01',
     '02',
@@ -43,7 +43,7 @@ const TimePickerModal = ({ onSelectHour, onSelectMinute }) => {
   ];
 
   return (
-    <div className='modalTime'>
+    <div className={`modalTime ${activPicker}`}>
       {/* godziny */}
       <div className='section hoursSection'>
         <div className='gridTime'>

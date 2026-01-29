@@ -40,14 +40,7 @@ const Calendar = ({ translate }) => {
 
     if (existingDayIndex !== -1) {
       // dodajemy slot do istniejącego dnia
-      updatedCalendar[existingDayIndex].slots.push(
-        ...slots,
-        //   {
-        //   // time: newTime,
-        //   // status: 'available',
-        //   // duration,
-        // }
-      );
+      updatedCalendar[existingDayIndex].slots.push(...slots);
     } else {
       // dodajemy nowy dzień z jednym slotem
       updatedCalendar.push({
@@ -56,13 +49,6 @@ const Calendar = ({ translate }) => {
         isToday: dayjs(newDate).isSame(dayjs(), 'day'),
         isDisabled: [0, 6].includes(dayjs(newDate).day()),
         slots: slots,
-        // slots: [
-        //   {
-        //     time: newTime,
-        //     status: 'available',
-        //     duration,
-        //   },
-        // ],
       });
     }
 
@@ -94,56 +80,9 @@ const Calendar = ({ translate }) => {
               onChange={(e) => setNewDate(e.target.value)}
             />
           </div>
-          {/* <div className='formGroup'>
-            <label>{translate.calendarPage.popup.hour}</label>
-            <input
-              type='time'
-              value={newTime}
-              onChange={(e) => setNewTime(e.target.value)}
-            />
-          </div> */}
-          {/* zmiana czasu testy  */}
+          {/* select time  */}
           <SelectTime onChangeTime={setNewTime} />
-          {/* ================= */}
-          {/* <div className='formGroup'>
-            <label>{translate.calendarPage.popup.hour}</label>
-            <div className='time'>
-              <div className='hours'>
-                <button>▲</button>
-                <input
-                  className='timeInput'
-                  type='number'
-                  // type='time'
-                  // value={newTime}
-                  // onChange={(e) => setNewTime(e.target.value)}
-                  // placeholder='godz'
-                  min={1}
-                  max={23}
-                />
-                <button>▼</button>
-              </div>
-              <div className='separator'>:</div>
-              <div className='hours'>
-                <button>▲</button>
-                <input
-                  className='timeInput'
-                  type='number'
-                  // type='time'
-                  // value={newTime}
-                  // onChange={(e) => setNewTime(e.target.value)}
-                  // placeholder='min'
-                  min={0}
-                  max={55}
-                  step={5}
-                />
-                <button>▼</button>
-              </div>
-            </div>
-          </div> */}
-
-          {/* ===================== */}
-
-          {/* ================== */}
+          {/* ========== */}
           <div className='formGroup'>
             <label>{translate.calendarPage.popup.meetingLength}</label>
             <input
