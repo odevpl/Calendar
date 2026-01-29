@@ -11,6 +11,7 @@ const NavBar = ({ language, handleLanguageChange, translate }) => {
           <NavLink to='/users'>{translate.nav.users}</NavLink>
           <NavLink to='/users/edit'>{translate.nav.userEdit}</NavLink>
           <NavLink to='/calendar'>{translate.nav.calendar}</NavLink>
+          {/* <NavLink to='/calendar/popup-time'>{translate.nav.calendar}</NavLink> */}
           <select
             value={language}
             onChange={(e) => handleLanguageChange(e.target.value)}

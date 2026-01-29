@@ -8,6 +8,7 @@ import UserEdit from './pages/users/edit/UserEdit';
 import { useState } from 'react';
 import pl from '../src/translations/pl';
 import en from '../src/translations/en';
+// import PopupTime from './pages/calendar/PopupTime/PopupTime';
 
 function App() {
   const [language, setLanguage] = useState('pl');
@@ -40,6 +41,11 @@ function App() {
           path='/users/edit'
           element={<UserEdit translate={translate} />}
         />
+        {/* test  */}
+        {/* <Route
+          path='/calendar/popup-time'
+          element={<PopupTime translate={translate} />}
+        /> */}
       </Routes>
     </Router>
   );

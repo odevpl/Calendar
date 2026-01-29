@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import './Calendar.scss';
 import DayPicker from '../../components/booking/DayPicker/DayPicker';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
+import SelectTime from './SelectTime/SelectTime';
 
 const Calendar = ({ translate }) => {
   const [calendar, setCalendar] = useState([]); // stan kalendarza
@@ -39,14 +40,7 @@ const Calendar = ({ translate }) => {
 
     if (existingDayIndex !== -1) {
       // dodajemy slot do istniejącego dnia
-      updatedCalendar[existingDayIndex].slots.push(
-        ...slots,
-        //   {
-        //   // time: newTime,
-        //   // status: 'available',
-        //   // duration,
-        // }
-      );
+      updatedCalendar[existingDayIndex].slots.push(...slots);
     } else {
       // dodajemy nowy dzień z jednym slotem
       updatedCalendar.push({
@@ -55,13 +49,6 @@ const Calendar = ({ translate }) => {
         isToday: dayjs(newDate).isSame(dayjs(), 'day'),
         isDisabled: [0, 6].includes(dayjs(newDate).day()),
         slots: slots,
-        // slots: [
-        //   {
-        //     time: newTime,
-        //     status: 'available',
-        //     duration,
-        //   },
-        // ],
       });
     }
 
@@ -93,14 +80,9 @@ const Calendar = ({ translate }) => {
               onChange={(e) => setNewDate(e.target.value)}
             />
           </div>
-          <div className='formGroup'>
-            <label>{translate.calendarPage.popup.hour}</label>
-            <input
-              type='time'
-              value={newTime}
-              onChange={(e) => setNewTime(e.target.value)}
-            />
-          </div>
+          {/* select time  */}
+          <SelectTime onChangeTime={setNewTime} />
+          {/* ========== */}
           <div className='formGroup'>
             <label>{translate.calendarPage.popup.meetingLength}</label>
             <input
