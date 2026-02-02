@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.scss';
 import DayPicker from '../../components/booking/DayPicker/DayPicker';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
 import SelectTime from './SelectTime/SelectTime';
+import {
+  getCalendar,
+  deleteTerm,
+  // addTwoTestDays,
+} from '../../components/utils/api/connector';
 
 const Calendar = ({ translate }) => {
   const [calendar, setCalendar] = useState([]); // stan kalendarza
@@ -17,6 +22,7 @@ const Calendar = ({ translate }) => {
   const [meetingCount, setMeetingCount] = useState(1);
 
   // Dodanie nowego terminu do stanu kalendarza
+  // ====================================================
   const handleAddTerm = () => {
     if (!newDate || !newTime) return;
 
@@ -63,6 +69,79 @@ const Calendar = ({ translate }) => {
     setMeetingCount(1);
   };
 
+  // API + usuwanie terminów slotów
+  // API - function
+  // -=========================================================================
+  // funkcja do zmiany danych z backendu na dane do UI
+  const mapTermsToCalendar = (terms) => {
+    const daysMap = {};
+
+    terms.forEach((term) => {
+      // formatowanie daty
+      const dayDate = dayjs(term.date).format('YYYY-MM-DD');
+
+      // nie ma dnia ? tworzymy
+      if (!daysMap[dayDate]) {
+        daysMap[dayDate] = {
+          date: dayDate,
+          dayName: dayjs(dayDate).format('ddd'),
+          isToday: dayjs(dayDate).isSame(dayjs(), 'day'),
+          isDisabled: [0, 6].includes(dayjs(dayDate).day()),
+          slots: [],
+        };
+      }
+
+      // dodawanie slota do dnia
+      daysMap[dayDate].slots.push({
+        id: term.id,
+        time: term.startTime.slice(0, 5),
+        duration: 30,
+        status: 'available',
+      });
+    });
+
+    // zamiana obiektu na tablicę
+    return Object.values(daysMap);
+  };
+
+  // // API
+  // // ======================================================================
+  // // ======================================================================
+
+  const fetchCalendar = async () => {
+    const data = await getCalendar();
+    const mapped = mapTermsToCalendar(data);
+    // console.log('po mapowaniu dni:', mapped);
+    setCalendar(mapped);
+  };
+
+  useEffect(() => {
+    fetchCalendar();
+  }, []);
+
+  // useEffect(() => {
+  //   window.addTwoTestDays = async () => {
+  //     await addTwoTestDays();
+  //     await fetchCalendar();
+  //   };
+  // }, []);
+
+  // funkcja do usuwania slotTime
+  const handleDeleteSlot = async (id) => {
+    // console.log('usuwam slot o:', id);
+    await deleteTerm(id);
+    await fetchCalendar();
+  };
+  // usuwanie wszystkich slotów
+  const handleDeleteAllSlotsDay = async (day) => {
+    console.log('usunieto dzień ');
+    try {
+      await Promise.all(day.slots.map((slot) => deleteTerm(slot.id)));
+      await fetchCalendar();
+    } catch (error) {
+      console.log('Bład przy usuwaniu slotów', error);
+    }
+  };
   return (
     <div className='calendarSection'>
       <BlueBtn onClick={() => setShowPopup(true)}>
@@ -122,6 +201,8 @@ const Calendar = ({ translate }) => {
             setCalendar={setCalendar}
             startDate={startDate}
             setStartDate={setStartDate}
+            onDeleteSlot={handleDeleteSlot}
+            onDeleteAllSlotsDay={handleDeleteAllSlotsDay}
           />
         )}
       </div>

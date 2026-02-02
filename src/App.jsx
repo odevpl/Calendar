@@ -41,11 +41,6 @@ function App() {
           path='/users/edit'
           element={<UserEdit translate={translate} />}
         />
-        {/* test  */}
-        {/* <Route
-          path='/calendar/popup-time'
-          element={<PopupTime translate={translate} />}
-        /> */}
       </Routes>
     </Router>
   );

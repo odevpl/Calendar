@@ -5,7 +5,18 @@
   padding: 1em 5em;
   text-align: center;
   border-bottom: 1px solid rgb(217, 211, 211);
+  .daySlots {
+    .deleteSlots {
+      cursor: pointer;
+      display: inline-block;
+      transition: 0.5s;
+    }
+    .deleteSlots:hover {
+      transform: scale(1.4);
+    }
+  }
   .slot {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
@@ -39,6 +50,16 @@
     &.selected {
       background-color: #fff;
       border: 1px solid gold;
+    }
+    p {
+      position: absolute;
+      background: none;
+      border: none;
+      top: 50%;
+      right: 1em;
+      transform: translateY(-50%);
+      cursor: alias;
+      font-size: 1.25em;
     }
   }
 }
