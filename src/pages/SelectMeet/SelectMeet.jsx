@@ -1,5 +1,5 @@
-import BookingView from '../../components/booking/BookingView/BookingView';
-import Header from '../../components/layout/Header/Header';
+// import BookingView from '../../components/booking/BookingView/BookingView';
+// import Header from '../../components/layout/Header/Header';
 import Main from '../../components/layout/Main/Main';
 import './SelectMeet.scss';
 const SelectMeet = ({ translate }) => {

@@ -3,11 +3,11 @@ import BlueBtn from '../../ui/Button/BlueBtn/BlueBtn';
 import DayRows from '../DayRows/DayRows';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import './DayPicker.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { generateRandomWeekData } from '../../utils/CalendarConfig/CalendarConfig';
 import dayjs from 'dayjs';
-import { api } from '../../utils/api/api'; // import axios client
-import { testConnection } from '../../utils/api/connector';
+// import { api } from '../../utils/api/api'; // import axios client
+// import { testConnection } from '../../utils/api/connector';
 
 const DayPicker = ({
   calendar,
@@ -15,22 +15,21 @@ const DayPicker = ({
   startDate,
   setStartDate,
   translate,
+  onDeleteSlot,
+  onDeleteAllSlotsDay,
 }) => {
+  // useEffect(() => {
+  //   const checkApi = async () => {
+  //     try {
+  //       const res = await testConnection();
+  //       console.log('Response', res);
+  //     } catch (e) {
+  //       console.error('Backend unreachable', e);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const checkApi = async () => {
-      try {
-        const res = await testConnection();
-        console.log('Response', res);
-      } catch (e) {
-        console.error('Backend unreachable');
-      }
-    };
-
-    checkApi();
-
-  }, []);
-
+  //   checkApi();
+  // }, []);
 
   const navigate = useNavigate();
   // stan przechowuje obiekt {data, time} dla klikniętego slotu
@@ -53,26 +52,26 @@ const DayPicker = ({
   };
 
   // Pobranie danych z backendu
-  const fetchCalendar = async () => {
-    try {
-      const response = await api.get('/calendar'); // GET http://localhost:4000/calendar
+  // const fetchCalendar = async () => {
+  //   try {
+  //     const response = await api.get('/calendar'); // GET http://localhost:4000/calendar
 
-      // dodajemy logikę weekendów
-      const updatedCalendar = response.data.map((day) => ({
-        ...day,
-        isDisabled:
-          day.isDisabled || [0, 6].includes(new Date(day.date).getDay()),
-      }));
+  //     // dodajemy logikę weekendów
+  //     const updatedCalendar = response.data.map((day) => ({
+  //       ...day,
+  //       isDisabled:
+  //         day.isDisabled || [0, 6].includes(new Date(day.date).getDay()),
+  //     }));
 
-      setCalendar(updatedCalendar);
-    } catch (error) {
-      console.error('Błąd pobierania kalendarza:', error);
-    }
-  };
+  //     setCalendar(updatedCalendar);
+  //   } catch (error) {
+  //     console.error('Błąd pobierania kalendarza:', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchCalendar();
-  }, []);
+  // useEffect(() => {
+  //   fetchCalendar();
+  // }, []);
 
   const handleSelectSlot = (clickedDayIndex, clickedSlotIndex) => {
     //dayIndex - dzień w którym kliknięto slot
@@ -122,6 +121,8 @@ const DayPicker = ({
       <TimeSlots
         calendar={calendar} // tablica dni ze slotami
         onSelectSlot={handleSelectSlot}
+        onDeleteSlot={onDeleteSlot}
+        onDeleteAllSlotsDay={onDeleteAllSlotsDay}
       />
       <div className='btnWrapper'>
         <BlueBtn onClick={handleNext}>Next</BlueBtn>
