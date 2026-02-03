@@ -1,6 +1,7 @@
 import './Table.scss';
 
-const Table = ({ data, config, onClick }) => {
+const Table = ({ data, config, onEdit, onDelete}) => {
+  const cols = typeof config === 'function' ? config(onEdit, onDelete) : config;
   return (
     <>
       <table className='table'>
@@ -8,7 +9,7 @@ const Table = ({ data, config, onClick }) => {
         {/* ================= */}
         <thead>
           <tr>
-            {config.map((col) => (
+            {cols.map((col) => (
               <th key={col.id}>{col.name}</th>
             ))}
           </tr>
@@ -17,8 +18,8 @@ const Table = ({ data, config, onClick }) => {
         {/* ================= */}
         <tbody>
           {data.map((row) => (
-            <tr key={row.id} onClick={() => onClick(row)}>
-              {config.map((col) => (
+            <tr key={row.id}>
+              {cols.map((col) => (
                 <td key={col.id}>
                   {col.render ? col.render(row) : row[col.key]}
                 </td>

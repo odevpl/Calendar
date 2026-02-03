@@ -1,31 +1,37 @@
-import { FaSyncAlt, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-const iconMap = {
-  refresh: <FaSyncAlt />,
-  edit: <FaEdit />,
-  delete: <FaTrash />,
-};
+export const tableConfig = (onEdit, onDelete) => [
+    { id: 'login', name: 'Login', key: 'login'},
+    { id: 'type', name: 'Type', key: 'type' },
+    { id: 'createdAt', name: 'Created', key: 'createdAt' },
 
-const tableConfig = [
-  { id: 'name', name: 'Name', key: 'name' },
-  { id: 'id', name: 'ID', key: 'id' },
-  { id: 'description', name: 'Description', key: 'description' },
-  { id: 'dateCreated', name: 'Date created', key: 'dateCreated' },
-  { id: 'createdBy', name: 'Created by', key: 'createdBy' },
-  { id: 'lastImport', name: 'Last import', key: 'lastImport' },
-  { id: 'noOfUsers', name: 'No. of users', key: 'noOfUsers' },
-  { id: 'lastRefreshed', name: 'Last refreshed', key: 'lastRefreshed' },
-  {
-    id: 'actions',
-    name: 'Actions',
-    key: 'icons',
-    render: (row) =>
-      row.icons.map((icon) => (
-        <button key={icon} className='icon-btn'>
-          {iconMap[icon]}
-        </button>
-      )),
-  },
+    {
+        id: 'actions',
+        name: 'Actions',
+        render: (row) => (
+        <div className="actions">
+            <button
+            className="icon-btn"
+            onClick={(e) => {
+                e.stopPropagation();
+                onEdit(row);
+            }}
+            >
+            <FaEdit />
+            </button>
+
+            <button
+            className="icon-btn danger"
+            onClick={(e) => {
+                e.stopPropagation();
+                onDelete(row.id);
+            }}
+            >
+            <FaTrash />
+            </button>
+        </div>
+        ),
+    },
 ];
 
 export default tableConfig;

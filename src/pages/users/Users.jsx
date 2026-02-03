@@ -1,6 +1,6 @@
 import Table from '../../components/users/UsersTable/Table';
 import tableData from '../../data/tableData';
-import tableConfig from './tableConfig';
+import tableConfig from './tableConfig2';
 
 const Users = ({ translate }) => {
   const data = tableData;
