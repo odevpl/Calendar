@@ -4,11 +4,16 @@ import './Calendar.scss';
 import DayPicker from '../../components/booking/DayPicker/DayPicker';
 import BlueBtn from '../../components/ui/Button/BlueBtn/BlueBtn';
 import SelectTime from './SelectTime/SelectTime';
+// import {
+//   getCalendar,
+//   deleteTerm,
+//   // addTwoTestDays,
+// } from '../../components/utils/api/connector';
 import {
   getCalendar,
   deleteTerm,
-  // addTwoTestDays,
-} from '../../components/utils/api/connector';
+  addTerm,
+} from '../../components/utils/api/calendar';
 
 const Calendar = ({ translate }) => {
   const [calendar, setCalendar] = useState([]); // stan kalendarza
@@ -21,55 +26,6 @@ const Calendar = ({ translate }) => {
   const [duration, setDuration] = useState(30);
   const [meetingCount, setMeetingCount] = useState(1);
 
-  // Dodanie nowego terminu do stanu kalendarza
-  // ====================================================
-  const handleAddTerm = () => {
-    if (!newDate || !newTime) return;
-
-    const slots = [];
-    // zwiększanie ilości spotkań:
-    for (let i = 0; i < meetingCount; i++) {
-      const time = dayjs(`${newDate} ${newTime}`)
-        .add(i * duration, 'minute')
-        .format('HH:mm');
-      slots.push({
-        time,
-        duration,
-        isDisabled: [0, 6].includes(dayjs(newDate).day()),
-        status: 'available',
-      });
-    }
-
-    const existingDayIndex = calendar.findIndex((day) => day.date === newDate);
-
-    const updatedCalendar = [...calendar];
-
-    if (existingDayIndex !== -1) {
-      // dodajemy slot do istniejącego dnia
-      updatedCalendar[existingDayIndex].slots.push(...slots);
-    } else {
-      // dodajemy nowy dzień z jednym slotem
-      updatedCalendar.push({
-        date: newDate,
-        dayName: dayjs(newDate).format('ddd'),
-        isToday: dayjs(newDate).isSame(dayjs(), 'day'),
-        isDisabled: [0, 6].includes(dayjs(newDate).day()),
-        slots: slots,
-      });
-    }
-
-    // sortowanie dodanych dat
-    updatedCalendar.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
-
-    setCalendar(updatedCalendar);
-    setShowPopup(false);
-    setNewDate('');
-    setNewTime('');
-    setDuration(30);
-    setMeetingCount(1);
-  };
-
-  // API + usuwanie terminów slotów
   // API - function
   // -=========================================================================
   // funkcja do zmiany danych z backendu na dane do UI
@@ -119,6 +75,7 @@ const Calendar = ({ translate }) => {
     fetchCalendar();
   }, []);
 
+  // testowa
   // useEffect(() => {
   //   window.addTwoTestDays = async () => {
   //     await addTwoTestDays();
@@ -142,6 +99,30 @@ const Calendar = ({ translate }) => {
       console.log('Bład przy usuwaniu slotów', error);
     }
   };
+
+  // dodawanie nowych sloów
+  const handleAddTerm = async () => {
+    if (!newDate || !newTime) return;
+
+    const terms = [];
+    // zwiększanie ilości spotkań:
+    for (let i = 0; i < meetingCount; i++) {
+      const time = dayjs(`${newDate} ${newTime}`)
+        .add(i * duration, 'minute')
+        .format('HH:mm');
+      terms.push({
+        date: newDate,
+        startTime: time,
+        userId: 1,
+      });
+    }
+    await Promise.all(terms.map((term) => addTerm(term)));
+
+    await fetchCalendar();
+    setShowPopup(false);
+  };
+
+  //
   return (
     <div className='calendarSection'>
       <BlueBtn onClick={() => setShowPopup(true)}>
